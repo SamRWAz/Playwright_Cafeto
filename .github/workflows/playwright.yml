@@ -6,8 +6,28 @@ on:
     branches: [ main, master ]
 jobs:
   test:
+    name: ${{ matrix.test.name }}
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # Permite que todas las pruebas se ejecuten aunque una falle
+      matrix:
+        test:
+          - id: 'test-1-bug'
+            name: 'Prueba 1 · Correo sin @ (Detecta Bug)'
+            file: 'tests/test-1.spec.ts'
+          - id: 'test-2-claves'
+            name: 'Prueba 2 · Contraseñas desiguales'
+            file: 'tests/test-2.spec.ts'
+          - id: 'test-3-fortaleza'
+            name: 'Prueba 3 · Fortaleza de contraseña'
+            file: 'tests/test-3.spec.ts'
+          - id: 'test-4-exitoso'
+            name: 'Prueba 4 · Registro exitoso'
+            file: 'tests/test-4.spec.ts'
+          - id: 'suite-pom'
+            name: 'Suite POM · PaginaRegistro (Arquitectura en capas)'
+            file: 'tests/registro.spec.ts'
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -16,14 +36,13 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-      continue-on-error: true
-    - name: Upload Playwright Report
+      run: npx playwright install --with-deps chromium
+    - name: Ejecutar prueba individual
+      run: npx playwright test ${{ matrix.test.file }} --project=chromium
+    - name: Subir reporte de esta prueba
       uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report
+        name: reporte-${{ matrix.test.id }}
         path: playwright-report/
-        retention-days: 30
+        retention-days: 14
