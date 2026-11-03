@@ -1,0 +1,37 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('http://localhost:3000/');
+  await page.getByRole('button', { name: 'Crear cuenta' }).click();
+  await page.getByRole('textbox', { name: 'Contraseña' }).click();
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('abc');
+  await expect(page.locator('#f-registro')).toContainText('Fortaleza de la contraseña: 0 de 4');
+  await page.getByRole('textbox', { name: 'Contraseña' }).click();
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('solominusculas');
+  await expect(page.locator('#f-registro')).toContainText('Fortaleza de la contraseña: 1 de 4');
+  await page.getByRole('textbox', { name: 'Contraseña' }).click();
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('');
+  await page.getByRole('textbox', { name: 'Contraseña' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('M');
+  await page.getByRole('textbox', { name: 'Contraseña' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('Mayuscula');
+  await page.getByRole('textbox', { name: 'Contraseña' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('MayusculaL');
+  await page.getByRole('textbox', { name: 'Contraseña' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('MayusculaLarga');
+  await expect(page.locator('#f-registro')).toContainText('Fortaleza de la contraseña: 2 de 4');
+  await page.getByRole('textbox', { name: 'Contraseña' }).click();
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('');
+  await page.getByRole('textbox', { name: 'Contraseña' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('M');
+  await page.getByRole('textbox', { name: 'Contraseña' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('Mayuscula123');
+  await expect(page.locator('#f-registro')).toContainText('Fortaleza de la contraseña: 3 de 4');
+  await page.getByRole('textbox', { name: 'Contraseña' }).click();
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('');
+  await page.getByRole('textbox', { name: 'Contraseña' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('C');
+  await page.getByRole('textbox', { name: 'Contraseña' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('Cafe2026!');
+  await expect(page.locator('#f-registro')).toContainText('Fortaleza de la contraseña: 4 de 4');
+});
