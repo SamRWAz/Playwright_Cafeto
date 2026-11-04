@@ -10,23 +10,23 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false # Permite que todas las pruebas se ejecuten aunque una falle
+      fail-fast: false
       matrix:
         test:
-          - id: 'test-1-bug'
-            name: 'Prueba 1 · Correo sin @ (Detecta Bug)'
+          - id: 'test-1'
+            name: 'Prueba 1 · Registro con correo sin @'
             file: 'tests/test-1.spec.ts'
-          - id: 'test-2-claves'
+          - id: 'test-2'
             name: 'Prueba 2 · Contraseñas desiguales'
             file: 'tests/test-2.spec.ts'
-          - id: 'test-3-fortaleza'
+          - id: 'test-3'
             name: 'Prueba 3 · Fortaleza de contraseña'
             file: 'tests/test-3.spec.ts'
-          - id: 'test-4-exitoso'
+          - id: 'test-4'
             name: 'Prueba 4 · Registro exitoso'
             file: 'tests/test-4.spec.ts'
           - id: 'suite-pom'
-            name: 'Suite POM · PaginaRegistro (Arquitectura en capas)'
+            name: 'Suite POM · PaginaRegistro'
             file: 'tests/registro.spec.ts'
     steps:
     - uses: actions/checkout@v4
@@ -46,7 +46,7 @@ jobs:
         cd pipeline
         npm install
         npx playwright install --with-deps chromium
-    - name: Ejecutar pruebas en la carpeta pipeline
+    - name: Ejecutar prueba individual
       run: |
         cd pipeline
         npx playwright test ${{ matrix.test.file }} --project=chromium
