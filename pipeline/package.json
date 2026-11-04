@@ -1,0 +1,14 @@
+{
+  "name": "pipeline-pruebas-playwright",
+  "version": "1.0.0",
+  "description": "Suite de pruebas automatizadas con Playwright",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.6.5"
+  }
+}

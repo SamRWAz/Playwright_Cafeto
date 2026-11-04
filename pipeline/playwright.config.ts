@@ -25,9 +25,10 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'] },
     },
   ],
-  /* Arranca el servidor local automáticamente antes de las pruebas */
+  /* Arranca la cafetería automáticamente antes de las pruebas */
   webServer: {
     command: 'npm start',
+    cwd: '../cafeteria',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,

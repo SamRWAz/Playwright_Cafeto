@@ -33,16 +33,27 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps chromium
-    - name: Ejecutar prueba individual
-      run: npx playwright test ${{ matrix.test.file }} --project=chromium
+    - name: Instalar dependencias de Cafeteria
+      run: |
+        cd cafeteria
+        npm install
+    - name: Iniciar Cafeteria en segundo plano
+      run: |
+        cd cafeteria
+        npm start &
+    - name: Instalar dependencias de Pipeline (Playwright)
+      run: |
+        cd pipeline
+        npm install
+        npx playwright install --with-deps chromium
+    - name: Ejecutar pruebas en la carpeta pipeline
+      run: |
+        cd pipeline
+        npx playwright test ${{ matrix.test.file }} --project=chromium
     - name: Subir reporte de esta prueba
       uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: reporte-${{ matrix.test.id }}
-        path: playwright-report/
+        path: pipeline/playwright-report/
         retention-days: 14
