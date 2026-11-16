@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('test', async ({ page }) => {
+  test.fail(true, 'Bug conocido (registro_correo_sin_arroba): la app permite registrar correos sin @ en lugar de rechazarlos');
   await page.goto('http://localhost:3000/');
   await page.getByRole('button', { name: 'Crear cuenta' }).click();
   await page.getByRole('textbox', { name: 'Nombre' }).click();

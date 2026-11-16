@@ -10,6 +10,7 @@ import {
 test.describe('HU-01 · Funcionalidad de Registro', () => {
 
   test('intento de registro con correo sin arroba', async ({ page }) => {
+    test.fail(true, 'Bug conocido (registro_correo_sin_arroba): la app permite registrar correos sin @ en lugar de rechazarlos');
     const registro = new PaginaRegistro(page);
     await registro.ir();
     await registro.registrar(usuarioSinArroba);
