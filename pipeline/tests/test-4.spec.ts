@@ -21,7 +21,7 @@ test('test', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Correo' }).press('CapsLock');
   await page.getByRole('textbox', { name: 'Correo' }).fill('laura_G');
   await page.getByRole('textbox', { name: 'Correo' }).press('CapsLock');
-  await page.getByRole('textbox', { name: 'Correo' }).fill('laura_Guti@cafe.test');
+  await page.getByRole('textbox', { name: 'Correo' }).fill(`laura_Guti_${Date.now()}@cafe.test`);
   await page.getByRole('textbox', { name: 'Contraseña' }).click();
   await page.getByRole('textbox', { name: 'Contraseña' }).press('CapsLock');
   await page.getByRole('textbox', { name: 'Contraseña' }).fill('C');
@@ -33,4 +33,6 @@ test('test', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Confirmación' }).press('CapsLock');
   await page.getByRole('textbox', { name: 'Confirmación' }).fill('Cafe2026!');
   await page.getByRole('button', { name: 'Registrarme' }).click();
+  await expect(page.getByTestId('estado-registro')).toHaveText('registrado');
+  await expect(page.locator('#mensaje')).toHaveText('Usuario registrado');
 });
